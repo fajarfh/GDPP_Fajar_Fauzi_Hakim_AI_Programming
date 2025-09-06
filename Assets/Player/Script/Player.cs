@@ -6,15 +6,27 @@ public class Player : MonoBehaviour
 {
 
     [SerializeField]
+    private Transform _camera;
+
+    [SerializeField]
     private float _speed = 5f;
 
 
     private Rigidbody _rigidBody;
 
+    
 
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody>();
+        //_camera = Camera.main.transform;
+        //_camera = GetComponentInChildren<Camera>().transform;
+    }
+
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Update()
@@ -23,7 +35,13 @@ public class Player : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         //Debug.Log("Horizontal: " + horizontal);
         //Debug.Log("Vertical: " + vertical);
-        Vector3 movementDirection = new Vector3(horizontal, 0, vertical);
+
+        Vector3 horizontalDirection = horizontal * _camera.right;
+        Vector3 verticalDirection = vertical * _camera.forward;
+        verticalDirection.y = 0;
+        horizontalDirection.y = 0;
+
+        Vector3 movementDirection = horizontalDirection + verticalDirection;
         _rigidBody.velocity = movementDirection * _speed * Time.fixedDeltaTime;
     }
 }

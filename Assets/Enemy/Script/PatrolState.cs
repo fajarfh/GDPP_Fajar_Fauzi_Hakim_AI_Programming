@@ -17,6 +17,13 @@ public class PatrolState : BaseState
     public void UpdateState(Enemy enemy)
     {
         //Debug.Log("Patrolling");
+
+        if (Vector3.Distance(enemy.transform.position, enemy.Player.transform.position) < enemy.ChaseDistance)
+        {
+            enemy.SwitchState(enemy.chaseState);
+        }
+
+
         if (!_isMoving)
         {
             Debug.Log("New Destination");

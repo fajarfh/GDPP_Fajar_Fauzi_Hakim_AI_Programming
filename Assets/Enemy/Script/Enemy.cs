@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour
     //[HideInInspector]
     public Animator animatorBall;
 
+    private AudioSource _audioSource;
+
     //public Animator animatorModel;
 
 
@@ -34,6 +36,8 @@ public class Enemy : MonoBehaviour
     {
         _currentState = patrolState;
         _currentState.EnterState(this);
+
+        _audioSource = GetComponent<AudioSource>();
 
         navMeshAgent = GetComponent<NavMeshAgent>();
         animatorBall = GetComponent<Animator>();
@@ -72,7 +76,11 @@ public class Enemy : MonoBehaviour
 
     public void Dead()
     {
-        Destroy(gameObject);
+        _audioSource?.Play();
+        //Destroy(gameObject);
+        int index = Random.Range(0, waypoints.Count);
+        Vector3 _destination = waypoints[index].position;
+        transform.position = _destination;
     }
 
     private void OnCollisionEnter(Collision collision)

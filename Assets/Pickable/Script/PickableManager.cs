@@ -13,9 +13,18 @@ public class PickableManager : MonoBehaviour
     [SerializeField]
     private ScoreManager _scoreManager;
 
+    [SerializeField]
+    private AudioClip _coin;
+
+    [SerializeField]
+    private AudioClip _powerUp;
+
+    private AudioSource _audioSource;
+
     private void Start()
     {
         InitPickableList();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void InitPickableList()
@@ -43,7 +52,11 @@ public class PickableManager : MonoBehaviour
 
         if (pickable.pickableType == PickableType.PowerUp)
         {
+            _audioSource?.PlayOneShot(_powerUp);
             _player?.PickPowerUp();
+        }else if (pickable.pickableType == PickableType.Coin)
+        {
+            _audioSource?.PlayOneShot(_coin);
         }
 
         if (_pickableList.Count <= 0)

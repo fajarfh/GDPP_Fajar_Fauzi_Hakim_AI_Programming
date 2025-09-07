@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     private Rigidbody _rigidBody;
     private Coroutine _powerUpCoroutine;
     private bool _isPowerUpActive;
+    private AudioSource _audioSource;
 
     public Action OnPowerUpStart;
     public Action OnPowerUpStop;
@@ -38,6 +39,7 @@ public class Player : MonoBehaviour
     {
         _rigidBody = GetComponent<Rigidbody>();
         _maxHealth = _health;
+        _audioSource = GetComponent<AudioSource>();
         //_camera = Camera.main.transform;
         //_camera = GetComponentInChildren<Camera>().transform;
     }
@@ -118,6 +120,8 @@ public class Player : MonoBehaviour
             Debug.Log("Lose");
             SceneManager.LoadScene("LoseScreen");
         }
+
+        _audioSource?.Play();
 
         UpdateUI();
     }

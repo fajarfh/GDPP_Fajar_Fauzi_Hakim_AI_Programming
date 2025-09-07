@@ -11,7 +11,11 @@ public class RetreatState : BaseState
 
     public void UpdateState(Enemy enemy)
     {
-        Debug.Log("Retreating");
+        //Debug.Log("Retreating");
+        if (enemy.Player != null)
+        {
+            enemy.navMeshAgent.destination = enemy.transform.position - enemy.Player.transform.position;
+        }
     }
 
     public void ExitState(Enemy enemy)

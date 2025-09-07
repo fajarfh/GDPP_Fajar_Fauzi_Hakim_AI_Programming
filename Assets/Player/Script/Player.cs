@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,10 +12,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speed = 5f;
 
+    [SerializeField]
+    private float _powerUpDuration = 5f;
 
     private Rigidbody _rigidBody;
+    private Coroutine _powerUpCoroutine;
 
-    
+    public Action OnPowerUpStart;
+    public Action OnPowerUpStop;
 
     private void Awake()
     {
@@ -43,5 +48,26 @@ public class Player : MonoBehaviour
 
         Vector3 movementDirection = horizontalDirection + verticalDirection;
         _rigidBody.velocity = movementDirection * _speed * Time.fixedDeltaTime;
+    }
+
+    public void PickPowerUp()
+    {
+        Debug.Log("Pick Power Up");
+        if (_powerUpCoroutine != null)
+        {
+            StopCoroutine(_powerUpCoroutine);
+        }
+        _powerUpCoroutine = StartCoroutine(StartPowerUp());
+    }
+
+    private IEnumerator StartPowerUp()
+    {
+        Debug.Log("Start Power Up");
+        OnPowerUpStart?.Invoke();
+
+        yield return new WaitForSeconds(_powerUpDuration);
+
+        OnPowerUpStop?.Invoke();
+        Debug.Log("Stop Power Up");
     }
 }

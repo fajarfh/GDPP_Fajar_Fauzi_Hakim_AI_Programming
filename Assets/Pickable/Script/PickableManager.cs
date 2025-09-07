@@ -8,6 +8,10 @@ public class PickableManager : MonoBehaviour
 
     [SerializeField]
     private Player _player;
+
+    [SerializeField]
+    private ScoreManager _scoreManager;
+
     private void Start()
     {
         InitPickableList();
@@ -15,6 +19,8 @@ public class PickableManager : MonoBehaviour
 
     private void InitPickableList()
     {
+        _pickableList.Clear();
+
         Pickable[] pickableObjects = GameObject.FindObjectsOfType<Pickable>();
         for (int i = 0; i < pickableObjects.Length; i++)
         {
@@ -22,6 +28,7 @@ public class PickableManager : MonoBehaviour
             pickableObjects[i].OnPicked += OnPickablePicked;
         }
         Debug.Log("Pickable List: " + _pickableList.Count);
+        _scoreManager?.SetMaxScore(_pickableList.Count);
     }
 
     private void OnPickablePicked(Pickable pickable)
@@ -29,6 +36,9 @@ public class PickableManager : MonoBehaviour
         _pickableList.Remove(pickable);
         Destroy(pickable.gameObject);
         Debug.Log("Pickable List: " + _pickableList.Count);
+
+        _scoreManager?.AddScore(1);
+
 
         if (pickable.pickableType == PickableType.PowerUp)
         {

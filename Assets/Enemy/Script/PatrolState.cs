@@ -12,7 +12,9 @@ public class PatrolState : BaseState
     {
         Debug.Log("Start Patrol");
         _isMoving = false;
-        enemy.animatorBall.SetTrigger("PatrolState");
+        
+        if (enemy == null) return;
+        enemy?.animatorBall.SetTrigger("PatrolState");
         //enemy.animatorModel.SetTrigger("PatrolState");
     }
 

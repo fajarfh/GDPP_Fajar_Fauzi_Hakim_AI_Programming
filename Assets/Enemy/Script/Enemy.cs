@@ -1,26 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
     private BaseState _currentState;
-    public PatrolState PatrolState = new PatrolState();
-    public ChaseState ChaseState = new ChaseState();
-    public RetreatState RetreatState = new RetreatState();
+    public PatrolState patrolState = new PatrolState();
+    public ChaseState chaseState = new ChaseState();
+    public RetreatState retreatState = new RetreatState();
+
+    [SerializeField]
+    public List<Transform> waypoints = new List<Transform>();
+
+    [HideInInspector]
+    public NavMeshAgent navMeshAgent;
+
 
     private void Awake()
     {
-        _currentState = PatrolState;
+        _currentState = patrolState;
         _currentState.EnterState(this);
+
+        navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
-        if (_currentState != null)
-        {
-            _currentState.UpdateState(this);
-        }
+        _currentState?.UpdateState(this);
     }
 
 }

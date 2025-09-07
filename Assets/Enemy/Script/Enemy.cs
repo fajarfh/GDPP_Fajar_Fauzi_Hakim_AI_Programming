@@ -22,6 +22,13 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     public Player Player;
 
+    //[HideInInspector]
+    public Animator animatorBall;
+
+    //public Animator animatorModel;
+
+
+
 
     private void Awake()
     {
@@ -29,6 +36,8 @@ public class Enemy : MonoBehaviour
         _currentState.EnterState(this);
 
         navMeshAgent = GetComponent<NavMeshAgent>();
+        animatorBall = GetComponent<Animator>();
+        
     }
     private void Start()
     {

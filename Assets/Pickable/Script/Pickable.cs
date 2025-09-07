@@ -13,7 +13,7 @@ public class Pickable : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other.tag);
-        
+
         if (other.CompareTag("Player"))
         {
             Debug.Log("PIckeup : " + pickableType);
@@ -22,5 +22,4 @@ public class Pickable : MonoBehaviour
             OnPicked?.Invoke(this); // Fix IDE1005: Use null-conditional and Invoke
         }
     }
-
 }
